@@ -15,8 +15,8 @@ const mutations = {
 };
 
 const actions = {
-  changeAuthor({ commit }) {
-    commit(SET_AUTHOR_INFO);
+  changeAuthor({ commit }, name) {
+    commit(SET_AUTHOR_INFO, name);
   }
 };
 

@@ -2,8 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     {{author}}
-    <div @click="showModule">点击</div>
-    <x-button>changeAuthor</x-button>
+    <div class="click" @click="showModule">点击</div>
+    <x-button type="primary" @click.native="changeAuthor">changeAuthor</x-button>
   </div>
 </template>
 
@@ -53,6 +53,15 @@ export default {
         }
       })
     },
+    changeAuthor() {
+      this.$store.dispatch('changeAuthor', 'spiroo');
+    }
   }
 }
 </script>
+
+<style lang="less" scoped>
+.click {
+  margin: 20px 0;
+}
+</style>
