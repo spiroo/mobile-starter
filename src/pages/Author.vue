@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { AlertModule, XButton } from 'vux';
-import { mapState } from 'vuex';
-import { SET_AUTHOR_INFO } from '../store/types';
+import { AlertModule, XButton } from 'vux'
+// import { mapState } from 'vuex'
+import { SET_AUTHOR_INFO } from '../store/types'
 
 export default {
   name: 'HelloWorld',
@@ -24,24 +24,24 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      console.log('beforeRouteEnter');
-      vm.change();
-    });
+      console.log('beforeRouteEnter')
+      vm.change()
+    })
   },
-  computed:{
-    author() {
-      console.log('computed author = ', this.$store.state);
-      return this.$store.state.user.author;
+  computed: {
+    author () {
+      console.log('computed author = ', this.$store.state)
+      return this.$store.state.user.author
     }
   },
   // computed: mapState([
   //   'author'
   // ]),
-  methods:{
-    change() {
-      this.$store.commit(SET_AUTHOR_INFO,'DK hahha');
+  methods: {
+    change () {
+      this.$store.commit(SET_AUTHOR_INFO, 'DK hahha')
     },
-    showModule() {
+    showModule () {
       AlertModule.show({
         title: 'VUX is Cool',
         content: 'Do you agree?',
@@ -53,8 +53,8 @@ export default {
         }
       })
     },
-    changeAuthor() {
-      this.$store.dispatch('changeAuthor', 'spiroo');
+    changeAuthor () {
+      this.$store.dispatch('changeAuthor', 'spiroo')
     }
   }
 }

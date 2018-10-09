@@ -1,14 +1,24 @@
 'use strict'
-const path = require('path');
-const utils = require('./utils');
-const config = require('../config');
-const vueLoaderConfig = require('./vue-loader.conf');
-const vuxLoader = require('vux-loader');
+const path = require('path')
+const utils = require('./utils')
+const config = require('../config')
+const vueLoaderConfig = require('./vue-loader.conf')
+const vuxLoader = require('vux-loader')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+})
 
 const webpackConfig = {
   context: path.resolve(__dirname, '../'),
@@ -31,6 +41,7 @@ const webpackConfig = {
   },
   module: {
     rules: [
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -79,7 +90,7 @@ const webpackConfig = {
     tls: 'empty',
     child_process: 'empty'
   }
-};
+}
 
 module.exports = vuxLoader.merge(webpackConfig, {
   plugins: [{
@@ -88,4 +99,4 @@ module.exports = vuxLoader.merge(webpackConfig, {
     name: 'less-theme',
     path: 'src/theme.less'
   }]
-});
+})
