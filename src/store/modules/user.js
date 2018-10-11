@@ -1,5 +1,5 @@
 import { SET_AUTHOR_INFO } from '../types'
-import { request } from '../../utils/axios'
+import { fetchList } from '../../api/user'
 
 const state = {
   author: 'DK'
@@ -20,7 +20,7 @@ const actions = {
     commit(SET_AUTHOR_INFO, name)
   },
   getUsers ({ commit }) {
-    request('http://jsonplaceholder.typicode.com/users').then((response) => {
+    fetchList().then((response) => {
       console.log('getUsers = ', response)
     })
   }

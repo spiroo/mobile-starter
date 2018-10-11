@@ -67,7 +67,7 @@ Axios.interceptors.response.use(
  * @param data
  * @param method
  */
-const request = (url, data = {}, method = 'get') => {
+const request = ({url, data = {}, method = 'get'}) => {
   return Axios({
     method,
     url,
@@ -76,4 +76,4 @@ const request = (url, data = {}, method = 'get') => {
   })
 }
 
-export { request }
+export default request
