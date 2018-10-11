@@ -1,55 +1,79 @@
-/**
- * axios网络请求配置
- * Created by aerfa on 2018/8/9.
- */
 import axios from 'axios'
+import qs from 'qs'
 
-// 请求配置项
-var instance = axios.create({
+const Axios = axios.create({
+  baseURL: '/',
+  timeout: 10000,
+  responseType: 'json',
+  withCredentials: true,
   headers: {
-    'Content-Type': 'application/json'
-  },
-  timeout: 8000,
-  baseURL: '' // 接口地址
+    'Content-Type': 'application/json;charset=utf-8'
+  }
 })
+const CancelToken = axios.CancelToken
+const requestMap = new Map()
 
-// 请求拦截器
-instance.interceptors.request.use(config => {
-  return config
-}, error => {
-  return Promise.reject(error)
-})
+// 请求前置拦截器
+Axios.interceptors.request.use(
+  config => {
+    // 防重复提交
+    const keyString = qs.stringify(Object.assign({}, { url: config.url, method: config.method }, config.data))
+    if (requestMap.get(keyString)) {
+      // 取消当前请求
+      config.cancelToken = new CancelToken((cancel) => {
+        cancel('Please slow down a little')
+      })
+    }
+    requestMap.set(keyString, true)
+    Object.assign(config, { _keyString: keyString })
 
-// 响应拦截器
-instance.interceptors.response.use(
-  res => {
-    return res.data
+    if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
+      // 序列化
+      config.data = qs.stringify(config.data)
+    }
+
+    return config
   },
   error => {
     return Promise.reject(error)
   }
 )
 
-// 封装get请求
-export function get (url, data = {}) {
-  return new Promise((resolve, reject) => {
-    instance.get(url, {
-      params: data
-    }).then(response => {
-      resolve(response)
-    }).catch(err => {
-      reject(err)
-    })
+// 返回响应拦截器
+Axios.interceptors.response.use(
+  res => {
+    // 重置requestMap
+    const { config } = res
+    requestMap.set(config._keyString, false)
+
+    if (res.status === 200) {
+      return res.data
+    }
+    // todo 弹窗提示等
+    console.log('request error', res)
+  },
+  error => {
+    console.log('error = ', error)
+    return {
+      error
+    }
+  }
+)
+
+/**
+ * @description
+ * 请求
+ * @param url
+ * @param data
+ * @param method
+ */
+const request = (url, data = {}, method = 'get') => {
+  return Axios({
+    method,
+    url,
+    data,
+    params: method.toUpperCase() === 'GET' && data
   })
 }
 
-// 封装post请求
-export function post (url, data = {}) {
-  return new Promise((resolve, reject) => {
-    instance.post(url, data).then(response => {
-      resolve(response)
-    }).catch(err => {
-      reject(err)
-    })
-  })
-}
+export { request }

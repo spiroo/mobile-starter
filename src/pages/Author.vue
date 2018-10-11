@@ -4,6 +4,7 @@
     {{author}}
     <div class="click" @click="showModule">点击</div>
     <x-button type="primary" @click.native="changeAuthor">changeAuthor</x-button>
+    <x-button type="primary" @click.native="getUsers">getUsers</x-button>
   </div>
 </template>
 
@@ -55,6 +56,9 @@ export default {
     },
     changeAuthor () {
       this.$store.dispatch('changeAuthor', 'spiroo')
+    },
+    getUsers () {
+      this.$store.dispatch('getUsers', 'spiroo')
     }
   }
 }
