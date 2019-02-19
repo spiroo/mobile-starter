@@ -1,4 +1,4 @@
-# demo
+# vux mobile starter
 
 ## Project setup
 ```
@@ -7,12 +7,16 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
+or
+npm run pro
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run build:dev
+or
+npm run build:pro
 ```
 
 ### Run your tests
