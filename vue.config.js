@@ -8,12 +8,6 @@ module.exports = {
   // baseUrl: process.env.NODE_ENV === 'production' ? '/' : '/',
   baseUrl: '/',
 
-  outputDir: 'dist',
-
-  assetsDir: 'static',
-
-  filenameHashing: true,
-
   // When building in multi-pages mode, the webpack config will contain different plugins
   // (there will be multiple instances of html-webpack-plugin and preload-webpack-plugin).
   // Make sure to run vue inspect if you are trying to modify the options for those plugins.
@@ -67,11 +61,10 @@ module.exports = {
       const mode = argv[argv.indexOf('--project-mode') + 1];
       args[0]['process.env'].MODE = `"${mode}"`;
       if (mode === 'dev') {
-        args[0]['process.env'].BASE_API = '"http://localhost:8010"';
+        args[0]['process.env'].BASE_API = '"http://jsonplaceholder.typicode.com"';
       } else {
         args[0]['process.env'].BASE_API = '"http://127.0.0.1:8000"';
       }
-
       return args;
     });
 
@@ -112,26 +105,7 @@ module.exports = {
   // https://webpack.js.org/configuration/dev-server/
   devServer: {
     open: true,
-
-    // host: 'localhost',
-
-    port: 9522,
-
-    https: false,
-
-    hotOnly: false
-
-    // proxy: {
-    //     // 设置代理
-    //     // proxy all requests starting with /api to jsonplaceholder
-    //     'http://localhost:8080/': {
-    //         target: 'http://baidu.com:8080', //真实请求的目标地址
-    //         changeOrigin: true,
-    //         pathRewrite: {
-    //             '^http://localhost:8080/': ''
-    //         }
-    //     }
-    // },
+    port: 9522
   },
 
   // 第三方插件配置

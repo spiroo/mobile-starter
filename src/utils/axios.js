@@ -1,6 +1,5 @@
 import axios from 'axios';
 import qs from 'qs';
-import store from '@/store';
 
 const Axios = axios.create({
   baseURL: process.env.BASE_API,
@@ -30,21 +29,14 @@ Axios.interceptors.request.use(
     requestMap.set(keyString, true);
     Object.assign(config, { _keyString: keyString });
 
-    // loading + 1
-    store.dispatch('SetLoading', true);
-
     if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
       // 序列化
-      config.data = qs.stringify(config.data);
+      // config.data = qs.stringify(config.data);
     }
 
     return config;
   },
   error => {
-    // loading 清零
-    setTimeout(() => {
-      store.dispatch('SetLoading', false);
-    }, 300);
     return Promise.reject(error);
   }
 );
@@ -56,8 +48,6 @@ Axios.interceptors.response.use(
     const { config } = res;
     requestMap.set(config._keyString, false);
 
-    store.dispatch('SetLoading', false);
-
     if (res.status === 200) {
       return res.data;
     }
@@ -65,7 +55,6 @@ Axios.interceptors.response.use(
     console.log('request error', res);
   },
   error => {
-    store.dispatch('SetLoading', false);
     console.log('error = ', error);
     return {
       error

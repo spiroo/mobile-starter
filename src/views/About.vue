@@ -17,6 +17,16 @@ export default {
   components: {
     XButton,
     XHeader
+  },
+  created() {
+    this.$store
+      .dispatch('getUsers')
+      .then((res) => {
+        console.log('getUsers res = ', res);
+        // this.$router.push({ path: this.redirect || '/' })
+      }).catch((err) => {
+        console.log('err = ', err);
+      });
   }
 };
 </script>
