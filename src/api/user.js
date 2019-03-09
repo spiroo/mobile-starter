@@ -18,7 +18,7 @@ export default {
   },
   fetchList(params) {
     return request({
-      url: '/users',
+      url: '/server/users',
       method: 'get',
       data: params
     });

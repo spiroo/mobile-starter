@@ -2,7 +2,8 @@ import axios from 'axios';
 import qs from 'qs';
 
 const Axios = axios.create({
-  baseURL: process.env.BASE_API,
+  // baseURL: process.env.BASE_API,
+  baseURL: '/',
   timeout: 10000,
   responseType: 'json'
   // withCredentials: true,

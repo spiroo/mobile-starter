@@ -21,10 +21,11 @@ export default {
   created() {
     this.$store
       .dispatch('getUsers')
-      .then((res) => {
+      .then(res => {
         console.log('getUsers res = ', res);
         // this.$router.push({ path: this.redirect || '/' })
-      }).catch((err) => {
+      })
+      .catch(err => {
         console.log('err = ', err);
       });
   }
